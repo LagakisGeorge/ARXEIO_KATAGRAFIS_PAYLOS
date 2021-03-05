@@ -172,19 +172,31 @@ gdb.Execute "DELETE FROM MEGGTIM"
         Dim ELEM(1 To 60)
 
        ' On Error GoTo error_name
-       Dim CC As String
+       Dim CC As String, aa0 As String
+       Input #1, aa0
        
-
+       Dim k As Integer
+       k = 0
 470     Do While True  ' Not xlsheet.cells(mRow, 1) = Null ' Not data1.Recordset.EOF
 
-480         Line Input #1, AA
+480          ' Input #1, AA
+
+
+              AA = Trim(Split(aa0, Chr(10))(k))
+
+              If Len(AA) = 0 Then
+                  Exit Do
+              End If
+              
+              k = k + 1
+
 
             ' DUM = to437(AA)
-490         If EOF(1) Then
+490         'If EOF(1) Then
 
-                Exit Do
+               ' Exit Do
 
-            End If
+            'End If
 
                CC = Left(Split(AA, ";")(7), 60)
                gdb.Execute "insert into MEGGTIM (BARC,ONO,POSO) VALUES ('" + Split(AA, ";")(2) + "','" + CC + "',1)"
