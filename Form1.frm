@@ -22,6 +22,14 @@ Begin VB.Form Form1
    ScaleWidth      =   15930
    ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton cmdтоаявеио 
+      Caption         =   "то аявеио се сглеиылатаяио"
+      Height          =   360
+      Left            =   7560
+      TabIndex        =   7
+      Top             =   360
+      Width           =   3495
+   End
    Begin VB.CommandButton cmdEIDH 
       Caption         =   "апохгйеусг еидым ле пкгяг омоласиа"
       Height          =   480
@@ -109,10 +117,10 @@ Begin VB.Form Form1
    Begin VB.CommandButton cmdCommand2 
       Caption         =   "упокоцислос сумокым се EXCEL"
       Height          =   480
-      Left            =   7440
+      Left            =   7680
       TabIndex        =   1
       Top             =   3840
-      Width           =   2775
+      Width           =   3255
    End
    Begin VB.CommandButton cmdCommand1 
       Caption         =   "апохгйеусг йатацяажгс се басг"
@@ -181,8 +189,11 @@ gdb.Execute "DELETE FROM MEGGTIM"
 
 480          ' Input #1, AA
 
-
+             On Error GoTo miso
               AA = Trim(Split(aa0, Chr(10))(k))
+              
+              On Error GoTo 0
+              
 
               If Len(AA) = 0 Then
                   Exit Do
@@ -215,6 +226,21 @@ gdb.Execute "DELETE FROM MEGGTIM"
         'Set xl = Nothing
 
 770     Close #1
+
+
+    Exit Sub
+
+miso:
+MsgBox "КАХОР СТО ЕИДОР СТГМ СЕИЯэ " + Str(k)
+
+MsgBox Trim(Split(aa0, Chr(10))(k - 1))
+
+
+
+
+End
+
+
 
 End Sub
 
@@ -249,12 +275,15 @@ R.Open "SELECT SUM(POSO) AS SS,BARC,ONO  From [MEGGTIM]  GROUP BY BARC , ONO", g
 'Open "c:\mercvb\synola.csv" For Output As #3
 Dim N As Integer
 N = 0
+Dim SUMA As Single
+SUMA = 0
+
 Do While Not R.EOF
    N = N + 1
      myXL.Cells(N, 1) = R!barc
      myXL.Cells(N, 2) = R!ono
      myXL.Cells(N, 3) = R!ss
-     
+     SUMA = SUMA + R!ss
     ' Print #3, "'" + R!barc + ";" + R!ono + ";" + Str(R!ss)
      
      
@@ -265,7 +294,8 @@ Do While Not R.EOF
 
 Loop
 
-
+ myXL.Cells(N + 1, 3) = SUMA
+  myXL.Cells(N + 1, 5) = "пЯщПЕИ ТО АЯВЕИО МА ЕВЕИ " + Str(SUMA) + " СЕИЯщР. "
         
 R.Close
 
@@ -444,6 +474,11 @@ gdb.Execute "DELETE FROM MEIDH"
 
 
 
+End Sub
+
+Private Sub cmdтоаявеио_Click()
+   Shell "NOTEPAD.EXE " + text1.Text, vbMaximizedFocus
+   
 End Sub
 
 Private Sub Command2_Click()
